@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.agilesolutions.todolist</groupId>
-    <artifactId>to-do-list</artifactId>
+    <artifactId>todolist</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>todolist</name>
-    <description>TO-DO List</description>
+    <description></description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
