@@ -10,6 +10,7 @@ import com.agilesolutions.todolist.services.tasks.MarkTaskAsFinished;
 import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import static org.springframework.http.ResponseEntity.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,15 +39,17 @@ public class TasksController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addTask(
+    public ResponseEntity<String> addTask(
             @PathVariable("todolist-id") TodoListId todoListId,
             @RequestParam(name = "description") String description) {
         try {
-            return ResponseEntity.ok(addTask.execute(todoListId, description));
+            return ok(new AddTaskResponse(addTask.execute(todoListId, description)).toString());
         } catch (NonexistentTodoListException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex);
-        } catch (DuplicateTaskItemException ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
+            return status(HttpStatus.NOT_FOUND)
+                    .body(new AddTaskResponse(ex.getMessage()).toString());
+        } catch (DuplicateTaskItemException | RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new AddTaskResponse(ex.getMessage()).toString());
         }
     }
 
