@@ -8,7 +8,9 @@ import com.agilesolutions.todolist.domain.TodoList;
 import com.agilesolutions.todolist.domain.TodoListId;
 import com.agilesolutions.todolist.domain.TodoListRepository;
 import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named
 public class RemoveTask {
 
     private final TodoListRepository repository;
