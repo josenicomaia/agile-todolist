@@ -25,9 +25,12 @@ public class TaskListLoader implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
             TodoList todoList = new TodoList(new TodoListId(UUID.fromString("1fa96fb1-d622-4208-8227-057a82121075")), new HashSet<>());
-            todoList.addTask(new TaskItem(new TaskItemId(UUID.fromString("940bcc02-2798-47b9-a57a-4207cafb940a")), "one"));
-            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "two"));
-            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "three"));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Stage 1 - Logic and Personality Test", true));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Stage 2 - Technical interview", true));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Checklist Exercise"));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Profitable Packages Report"));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Responsive Interface with Boostrap"));
+            todoList.addTask(new TaskItem(new TaskItemId(UUID.randomUUID()), "Stage 3 - Final boss"));
 
             em.persist(todoList);
             em.flush();
