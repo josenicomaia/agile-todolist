@@ -1,12 +1,14 @@
 package com.agilesolutions.todolist.controller;
 
 import com.agilesolutions.todolist.domain.DuplicateTaskItemException;
+import com.agilesolutions.todolist.domain.NonexistentTaskItemException;
 import com.agilesolutions.todolist.domain.NonexistentTodoListException;
+import com.agilesolutions.todolist.domain.TaskItemId;
 import com.agilesolutions.todolist.domain.TodoListId;
 import com.agilesolutions.todolist.services.tasks.AddTask;
 import com.agilesolutions.todolist.services.tasks.ListTasks;
-import com.agilesolutions.todolist.services.tasks.MarkTaskAsAvailable;
-import com.agilesolutions.todolist.services.tasks.MarkTaskAsFinished;
+import com.agilesolutions.todolist.services.tasks.MarkAsAvailableTask;
+import com.agilesolutions.todolist.services.tasks.MarkAsFinishedTask;
 import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,19 +25,19 @@ public class TasksController {
 
     private final AddTask addTask;
     private final ListTasks listTasks;
-    private final MarkTaskAsAvailable markTaskAsAvailable;
-    private final MarkTaskAsFinished markTaskAsFinished;
+    private final MarkAsAvailableTask markAsAvailableTask;
+    private final MarkAsFinishedTask markAsFinishedTask;
 
     @Inject
     public TasksController(
             AddTask addTask,
             ListTasks listTasks,
-            MarkTaskAsAvailable markTaskAsAvailable,
-            MarkTaskAsFinished markTaskAsFinished) {
+            MarkAsAvailableTask markAsAvailableTask,
+            MarkAsFinishedTask markAsFinishedTask) {
         this.addTask = addTask;
         this.listTasks = listTasks;
-        this.markTaskAsAvailable = markTaskAsAvailable;
-        this.markTaskAsFinished = markTaskAsFinished;
+        this.markAsAvailableTask = markAsAvailableTask;
+        this.markAsFinishedTask = markAsFinishedTask;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -68,17 +70,37 @@ public class TasksController {
     }
 
     @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/available")
-    public void markTaskAsAvailable() {
-
+    public ResponseEntity<String> markTaskAsAvailable(
+            @PathVariable("todolist-id") TodoListId todoListId,
+            @PathVariable("id") TaskItemId taskItemId) {
+        try {
+            return ok(new MarkAsAvailableTaskResponse(markAsAvailableTask.execute(todoListId, taskItemId)).toString());
+        } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
+            return status(HttpStatus.NOT_FOUND)
+                    .body(new MarkAsAvailableTaskResponse(ex.getMessage()).toString());
+        } catch (RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MarkAsAvailableTaskResponse(ex.getMessage()).toString());
+        }
     }
 
     @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/finished")
-    public void markTaskAsFinished() {
-
+    public ResponseEntity<String> markTaskAsFinished(
+            @PathVariable("todolist-id") TodoListId todoListId,
+            @PathVariable("id") TaskItemId taskItemId) {
+        try {
+            return ok(new MaskAsFinishedTaskResponse(markAsFinishedTask.execute(todoListId, taskItemId)).toString());
+        } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
+            return status(HttpStatus.NOT_FOUND)
+                    .body(new MaskAsFinishedTaskResponse(ex.getMessage()).toString());
+        } catch (RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MaskAsFinishedTaskResponse(ex.getMessage()).toString());
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     public void removeTask() {
-
+        
     }
 }

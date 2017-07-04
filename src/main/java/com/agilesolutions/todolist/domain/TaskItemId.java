@@ -8,4 +8,8 @@ import lombok.Getter;
 public class TaskItemId {
     @Getter
     private UUID value;
+    
+    public TaskItemId(String candidate) {
+        this.value = UUID.fromString(candidate);
+    }
 }
