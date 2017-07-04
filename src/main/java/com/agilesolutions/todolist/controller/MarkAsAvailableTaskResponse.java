@@ -21,7 +21,7 @@ public class MarkAsAvailableTaskResponse {
     }
 
     public MarkAsAvailableTaskResponse(String message) {
-        success = true;
+        success = false;
         this.message = message;
     }
 

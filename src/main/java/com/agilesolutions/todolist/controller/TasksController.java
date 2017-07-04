@@ -9,6 +9,7 @@ import com.agilesolutions.todolist.services.tasks.AddTask;
 import com.agilesolutions.todolist.services.tasks.ListTasks;
 import com.agilesolutions.todolist.services.tasks.MarkAsAvailableTask;
 import com.agilesolutions.todolist.services.tasks.MarkAsFinishedTask;
+import com.agilesolutions.todolist.services.tasks.RemoveTask;
 import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +28,20 @@ public class TasksController {
     private final ListTasks listTasks;
     private final MarkAsAvailableTask markAsAvailableTask;
     private final MarkAsFinishedTask markAsFinishedTask;
+    private final RemoveTask removeTask;
 
     @Inject
     public TasksController(
             AddTask addTask,
             ListTasks listTasks,
             MarkAsAvailableTask markAsAvailableTask,
-            MarkAsFinishedTask markAsFinishedTask) {
+            MarkAsFinishedTask markAsFinishedTask,
+            RemoveTask removeTask) {
         this.addTask = addTask;
         this.listTasks = listTasks;
         this.markAsAvailableTask = markAsAvailableTask;
         this.markAsFinishedTask = markAsFinishedTask;
+        this.removeTask = removeTask;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -99,8 +103,20 @@ public class TasksController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void removeTask() {
-        
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public ResponseEntity<String> removeTask(
+            @PathVariable("todolist-id") TodoListId todoListId,
+            @PathVariable("id") TaskItemId taskItemId) {
+        try {
+            removeTask.execute(todoListId, taskItemId);
+            
+            return ok(new RemoveTaskResponse().toString());
+        } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
+            return status(HttpStatus.NOT_FOUND)
+                    .body(new RemoveTaskResponse(ex.getMessage()).toString());
+        } catch (RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new RemoveTaskResponse(ex.getMessage()).toString());
+        }
     }
 }

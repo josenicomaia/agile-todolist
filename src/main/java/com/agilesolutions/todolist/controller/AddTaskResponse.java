@@ -21,7 +21,7 @@ public class AddTaskResponse {
     }
 
     public AddTaskResponse(String message) {
-        success = true;
+        success = false;
         this.message = message;
     }
 

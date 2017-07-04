@@ -21,7 +21,7 @@ public class MaskAsFinishedTaskResponse {
     }
 
     public MaskAsFinishedTaskResponse(String message) {
-        success = true;
+        success = false;
         this.message = message;
     }
 

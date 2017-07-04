@@ -23,7 +23,7 @@ public class ListTaskResponse {
     }
 
     public ListTaskResponse(String message) {
-        success = true;
+        success = false;
         this.message = message;
     }
 
