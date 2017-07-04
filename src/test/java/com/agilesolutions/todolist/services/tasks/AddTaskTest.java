@@ -59,9 +59,13 @@ public class AddTaskTest {
         given(repository.find(any()))
                 .willReturn(Optional.of(foundTodoList));
         
-        addTask.execute(new TodoListId("1fa96fb1-d622-4208-8227-057a82121075"), "");
-        
-        verify(foundTodoList, times(3)).addTask(any());
+        try {
+            addTask.execute(new TodoListId("1fa96fb1-d622-4208-8227-057a82121075"), "");
+        } catch(DuplicateTaskItemException ex) {
+            verify(foundTodoList, times(3)).addTask(any());
+            
+            throw ex;
+        }
     }
     
     @Test

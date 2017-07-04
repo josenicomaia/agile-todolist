@@ -45,4 +45,21 @@ public class TodoListTest {
 
         assertEquals(todoList.getId(), todoListId);
     }
+    
+    @Test
+    public void given_todolist_with_one_item_then_verify_same_tasks() {
+        HashSet<TaskItem> tasks = new HashSet<>();
+        tasks.add(new TaskItem(new TaskItemId(UUID.randomUUID()), ""));
+        TodoList todoList = new TodoList(new TodoListId(UUID.randomUUID()), tasks);
+        assertEquals(todoList.getTasks(), tasks);
+    }
+    
+    @Test
+    public void given_todolist_with_two_item_then_verify_same_tasks() {
+        HashSet<TaskItem> tasks = new HashSet<>();
+        tasks.add(new TaskItem(new TaskItemId(UUID.randomUUID()), "one"));
+        tasks.add(new TaskItem(new TaskItemId(UUID.randomUUID()), "two"));
+        TodoList todoList = new TodoList(new TodoListId(UUID.randomUUID()), tasks);
+        assertEquals(todoList.getTasks(), tasks);
+    }
 }

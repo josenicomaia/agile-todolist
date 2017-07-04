@@ -16,7 +16,7 @@ import org.springframework.retry.annotation.Retryable;
 @Named
 public class AddTask {
 
-    private TodoListRepository repository;
+    private final TodoListRepository repository;
 
     @Inject
     public AddTask(TodoListRepository repository) {
@@ -32,7 +32,7 @@ public class AddTask {
         TaskItem newTaskItem = new TaskItem(new TaskItemId(UUID.randomUUID()), description);
         todoList.addTask(newTaskItem);
         repository.save(todoList);
-        
+
         return newTaskItem;
     }
 

@@ -54,8 +54,17 @@ public class TasksController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public void listTasks() {
-
+    public ResponseEntity<String> listTasks(
+            @PathVariable("todolist-id") TodoListId todoListId) {
+        try {
+            return ok(new ListTaskResponse(listTasks.execute(todoListId)).toString());
+        } catch (NonexistentTodoListException ex) {
+            return status(HttpStatus.NOT_FOUND)
+                    .body(new ListTaskResponse(ex.getMessage()).toString());
+        } catch (RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ListTaskResponse(ex.getMessage()).toString());
+        }
     }
 
     @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/available")
