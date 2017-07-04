@@ -16,10 +16,16 @@ import lombok.NoArgsConstructor;
 public class TaskItemId implements Serializable {
 
     @Getter
-    @Column(name = "id", columnDefinition="BINARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID value;
 
     public TaskItemId(String candidate) {
         this.value = UUID.fromString(candidate);
     }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
 }

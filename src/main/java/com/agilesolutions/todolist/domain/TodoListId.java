@@ -14,11 +14,17 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Embeddable
 public class TodoListId implements Serializable {
+
     @Getter
-    @Column(name = "id", columnDefinition="BINARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID value;
 
     public TodoListId(String candidate) {
         this.value = UUID.fromString(candidate);
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
     }
 }
