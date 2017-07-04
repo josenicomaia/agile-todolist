@@ -58,12 +58,12 @@ public class TasksController {
             return ok(new AddTaskResponse(addTask.execute(todoListId, description)).toString());
         } catch (NonexistentTodoListException ex) {
             return status(HttpStatus.NOT_FOUND)
-                    .body(new AddTaskResponse(ex.getMessage()).toString());
+                    .body(new AddTaskResponse(ex).toString());
         } catch (DuplicateTaskItemException | RuntimeException ex) {
             logger.error("An error occurred while adding new task to " + todoListId + ". Message: " + ex.getMessage());
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AddTaskResponse(ex.getMessage()).toString());
+                    .body(new AddTaskResponse(ex).toString());
         }
     }
 
@@ -76,12 +76,12 @@ public class TasksController {
             return ok(new ListTaskResponse(listTasks.execute(todoListId)).toString());
         } catch (NonexistentTodoListException ex) {
             return status(HttpStatus.NOT_FOUND)
-                    .body(new ListTaskResponse(ex.getMessage()).toString());
+                    .body(new ListTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while listing tasks from " + todoListId + ". Message: " + ex.getMessage());
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ListTaskResponse(ex.getMessage()).toString());
+                    .body(new ListTaskResponse(ex).toString());
         }
     }
 
@@ -95,12 +95,12 @@ public class TasksController {
             return ok(new MarkAsAvailableTaskResponse(markAsAvailableTask.execute(todoListId, taskItemId)).toString());
         } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
             return status(HttpStatus.NOT_FOUND)
-                    .body(new MarkAsAvailableTaskResponse(ex.getMessage()).toString());
+                    .body(new MarkAsAvailableTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while marking as available task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new MarkAsAvailableTaskResponse(ex.getMessage()).toString());
+                    .body(new MarkAsAvailableTaskResponse(ex).toString());
         }
     }
 
@@ -114,12 +114,12 @@ public class TasksController {
             return ok(new MaskAsFinishedTaskResponse(markAsFinishedTask.execute(todoListId, taskItemId)).toString());
         } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
             return status(HttpStatus.NOT_FOUND)
-                    .body(new MaskAsFinishedTaskResponse(ex.getMessage()).toString());
+                    .body(new MaskAsFinishedTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while marking as finished task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new MaskAsFinishedTaskResponse(ex.getMessage()).toString());
+                    .body(new MaskAsFinishedTaskResponse(ex).toString());
         }
     }
 
@@ -135,12 +135,12 @@ public class TasksController {
             return ok(new RemoveTaskResponse().toString());
         } catch (NonexistentTodoListException | NonexistentTaskItemException ex) {
             return status(HttpStatus.NOT_FOUND)
-                    .body(new RemoveTaskResponse(ex.getMessage()).toString());
+                    .body(new RemoveTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while removing task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new RemoveTaskResponse(ex.getMessage()).toString());
+                    .body(new RemoveTaskResponse(ex).toString());
         }
     }
 }

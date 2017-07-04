@@ -17,6 +17,10 @@ public class RemoveTaskResponse {
         this.message = message;
     }
 
+    public RemoveTaskResponse(Exception ex) {
+        this(ex.getClass() + ": " + ex.getMessage());
+    }
+
     @Override
     public String toString() {
         try {

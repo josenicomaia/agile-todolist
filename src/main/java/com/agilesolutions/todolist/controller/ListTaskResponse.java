@@ -27,6 +27,10 @@ public class ListTaskResponse {
         this.message = message;
     }
 
+    public ListTaskResponse(Exception ex) {
+        this(ex.getClass() + ": " + ex.getMessage());
+    }
+
     @Override
     public String toString() {
         try {
@@ -35,7 +39,7 @@ public class ListTaskResponse {
 
             if (result != null) {
                 JSONArray jsonResult = new JSONArray();
-                
+
                 for (TaskItem taskItem : result) {
                     JSONObject jsonTaskItem = new JSONObject();
                     jsonTaskItem.put("id", taskItem.getId().getValue().toString());

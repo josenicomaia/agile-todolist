@@ -25,6 +25,10 @@ public class AddTaskResponse {
         this.message = message;
     }
 
+    public AddTaskResponse(Exception ex) {
+        this(ex.getClass() + ": " + ex.getMessage());
+    }
+
     @Override
     public String toString() {
         try {

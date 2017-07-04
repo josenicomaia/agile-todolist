@@ -25,6 +25,10 @@ public class MaskAsFinishedTaskResponse {
         this.message = message;
     }
 
+    public MaskAsFinishedTaskResponse(Exception ex) {
+        this(ex.getClass() + ": " + ex.getMessage());
+    }
+
     @Override
     public String toString() {
         try {

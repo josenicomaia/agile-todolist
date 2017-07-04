@@ -25,6 +25,10 @@ public class MarkAsAvailableTaskResponse {
         this.message = message;
     }
 
+    public MarkAsAvailableTaskResponse(Exception ex) {
+        this(ex.getClass() + ": " + ex.getMessage());
+    }
+
     @Override
     public String toString() {
         try {
