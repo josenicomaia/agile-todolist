@@ -1,14 +1,30 @@
 package com.agilesolutions.todolist.domain;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "tasks")
 public class TaskItem {
+
     @Getter
+    @EmbeddedId
     private TaskItemId id;
+    
     @Getter
+    @NotNull
     private String description;
+
+    @NotNull
     private Boolean finished;
 
     public TaskItem(TaskItemId id, String description) {
@@ -16,15 +32,15 @@ public class TaskItem {
         this.description = description;
         finished = false;
     }
-    
+
     public Boolean isFinished() {
         return finished;
     }
-    
+
     public void markAsFinished() {
         finished = true;
     }
-    
+
     public void markAsAvailable() {
         finished = false;
     }
