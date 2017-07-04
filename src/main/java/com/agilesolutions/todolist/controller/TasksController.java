@@ -61,7 +61,8 @@ public class TasksController {
                     .body(new AddTaskResponse(ex).toString());
         } catch (DuplicateTaskItemException | RuntimeException ex) {
             logger.error("An error occurred while adding new task to " + todoListId + ". Message: " + ex.getMessage());
-
+            ex.printStackTrace();
+            
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new AddTaskResponse(ex).toString());
         }
@@ -79,6 +80,7 @@ public class TasksController {
                     .body(new ListTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while listing tasks from " + todoListId + ". Message: " + ex.getMessage());
+            ex.printStackTrace();
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ListTaskResponse(ex).toString());
@@ -98,6 +100,7 @@ public class TasksController {
                     .body(new MarkAsAvailableTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while marking as available task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
+            ex.printStackTrace();
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MarkAsAvailableTaskResponse(ex).toString());
@@ -117,6 +120,7 @@ public class TasksController {
                     .body(new MaskAsFinishedTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while marking as finished task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
+            ex.printStackTrace();
 
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MaskAsFinishedTaskResponse(ex).toString());
@@ -138,7 +142,8 @@ public class TasksController {
                     .body(new RemoveTaskResponse(ex).toString());
         } catch (RuntimeException ex) {
             logger.error("An error occurred while removing task " + taskItemId + " from " + todoListId + ". Message: " + ex.getMessage());
-
+            ex.printStackTrace();
+            
             return status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new RemoveTaskResponse(ex).toString());
         }
