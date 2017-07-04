@@ -6,6 +6,7 @@ import com.agilesolutions.todolist.domain.TodoListRepository;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,11 @@ public class JpaTodoListRepository implements TodoListRepository {
                         + "WHERE tl.id = :id", TodoList.class)
                 .setParameter("id", todoListId);
         
-        return Optional.ofNullable(query.getSingleResult());
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 
 }
