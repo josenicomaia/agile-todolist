@@ -30,8 +30,12 @@ public class JpaTodoListRepository implements TodoListRepository {
     @Transactional
     @Override
     public Optional<TodoList> find(TodoListId todoListId) {
-        TypedQuery<TodoList> query = em.createQuery("select tl form TodoList tl where lt.id = :id", TodoList.class)
-                .setParameter("id", todoListId.getValue().toString());
+        TypedQuery<TodoList> query = em.createQuery(
+                "SELECT tl "
+                        + "FROM TodoList tl "
+                        + "LEFT JOIN tl.tasks t "
+                        + "WHERE tl.id = :id", TodoList.class)
+                .setParameter("id", todoListId);
         
         return Optional.ofNullable(query.getSingleResult());
     }

@@ -2,8 +2,10 @@ package com.agilesolutions.todolist.domain;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,8 @@ public class TodoList {
     private TodoListId id;
 
     @Getter
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "tasklist_id")
     private Set<TaskItem> tasks = new HashSet<>();
 
     public void addTask(TaskItem newTaskItem) throws DuplicateTaskItemException {

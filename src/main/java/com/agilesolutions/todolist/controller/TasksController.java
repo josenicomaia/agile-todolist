@@ -44,7 +44,7 @@ public class TasksController {
         this.removeTask = removeTask;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> addTask(
             @PathVariable("todolist-id") TodoListId todoListId,
             @RequestParam(name = "description") String description) {
@@ -59,7 +59,7 @@ public class TasksController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> listTasks(
             @PathVariable("todolist-id") TodoListId todoListId) {
         try {
@@ -73,7 +73,7 @@ public class TasksController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/available")
+    @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/available", produces = "application/json")
     public ResponseEntity<String> markTaskAsAvailable(
             @PathVariable("todolist-id") TodoListId todoListId,
             @PathVariable("id") TaskItemId taskItemId) {
@@ -88,7 +88,7 @@ public class TasksController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/finished")
+    @RequestMapping(method = RequestMethod.PATCH, path = "/{id}/finished", produces = "application/json")
     public ResponseEntity<String> markTaskAsFinished(
             @PathVariable("todolist-id") TodoListId todoListId,
             @PathVariable("id") TaskItemId taskItemId) {
@@ -103,7 +103,7 @@ public class TasksController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}", produces = "application/json")
     public ResponseEntity<String> removeTask(
             @PathVariable("todolist-id") TodoListId todoListId,
             @PathVariable("id") TaskItemId taskItemId) {

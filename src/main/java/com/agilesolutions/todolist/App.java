@@ -1,5 +1,15 @@
 package com.agilesolutions.todolist;
 
+import com.agilesolutions.todolist.domain.DuplicateTaskItemException;
+import com.agilesolutions.todolist.domain.TaskItem;
+import com.agilesolutions.todolist.domain.TaskItemId;
+import com.agilesolutions.todolist.domain.TodoList;
+import com.agilesolutions.todolist.domain.TodoListId;
+import java.util.HashSet;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.boot.SpringApplication;
@@ -33,19 +43,19 @@ public class App {
         bean.setDatabase(Database.H2);
         bean.setGenerateDdl(true);
         bean.setShowSql(true);
-        
+
         return bean;
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            DataSource dataSource, 
+            DataSource dataSource,
             JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(dataSource);
         bean.setJpaVendorAdapter(jpaVendorAdapter);
         bean.setPackagesToScan("com.agilesolutions.todolist.domain");
-        
+
         return bean;
     }
 
